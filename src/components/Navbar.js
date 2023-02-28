@@ -12,7 +12,17 @@ const Nav = styled.nav`
 `;
 
 const LeftContainer = styled.div`
+	flex: 30%;
+	display: flex;
+	align-items: center;
 	padding: 10px 20px;
+`;
+
+const RightContainer = styled.div`
+	flex: 70%;
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 10px;
 `;
 
 const Center = styled.div`
@@ -21,17 +31,28 @@ const Center = styled.div`
 	justify-content: flex-end;
 	background-color: ${COLOR.secondary};
 	position: absolute;
-	top: 25px;
+	top: 20px;
 	left: 50%;
 	transform: translateX(-50%);
-	padding: 10px;
+	padding: 5px 10px;
 	padding-left: 0px;
-	border-radius: 20px;
+	border-radius: 300px;
 	border: solid 2px black;
 `;
 
 const NavbarComponents = styled.div`
 	padding: 0px 10px;
+`;
+
+const LoginButton = styled.div`
+	padding: 0px 20px;
+	color: ${FONT_COLOR.primary};
+	background-color: ${COLOR.tertiary};
+	height: 100%;
+	font-family: 'Lato';
+	font-weight: bold;
+	border-radius: 2px;
+	margin: 8px 0px;
 `;
 
 const colorChange = (normal, hovering) => {
@@ -63,6 +84,18 @@ const NavbarLink = styled(Link)`
 	}
 `;
 
+const DownloadButton = styled.div`
+	background-color: ${COLOR.primary}56;
+	border: 1px solid black;
+	border-radius: 20px;
+	padding: 8px 0px;
+`;
+
+/* TODO:
+ * Flickering background for download button every 10 seconds? (Entice the user to install)
+ * Change the login button on top right, lowk cringe
+ * Background for download needs color on hover
+ */
 function Topnav() {
 	return (
 		<Nav>
@@ -71,14 +104,23 @@ function Topnav() {
 					<Verce size={FONT_SIZE.xxl}>verce</Verce>
 				</NavbarComponents>
 			</LeftContainer>
+			<RightContainer>
+				<div style={{ height: 'calc(100% - 16px)' }}>
+					<LoginButton>
+						<div style={{ paddingTop: 'calc(50% - 8px)' }}>
+							Login
+						</div>
+					</LoginButton>
+				</div>
+			</RightContainer>
 			<Center>
-				<NavbarLink>Download</NavbarLink>
-				<NavbarLink>Blog</NavbarLink>
 				<NavbarLink>Discover</NavbarLink>
 				<NavbarLink>Support</NavbarLink>
-				<NavbarLink secondary="true" shortpadding="true">
-					Login
-				</NavbarLink>
+				<DownloadButton>
+					<NavbarLink>Download</NavbarLink>
+				</DownloadButton>
+				<NavbarLink>News</NavbarLink>
+				<NavbarLink>Security</NavbarLink>
 			</Center>
 		</Nav>
 	);
