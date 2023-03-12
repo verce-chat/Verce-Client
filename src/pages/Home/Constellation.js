@@ -19,7 +19,8 @@ function debounce(fn, ms) {
 	};
 }
 
-function Constellation() {
+function Constellation(props) {
+	const containerHeight = '600';
 	const [dimensions, setDimensions] = useState({
 		width: window.innerWidth - 120,
 	});
@@ -160,7 +161,9 @@ function Constellation() {
 				
                 #particles-js {
                     position: absolute;
-                    height: 652px;
+                    height: ` +
+					containerHeight +
+					`px;
                     width: ` +
 					dimensions.width +
 					`px;

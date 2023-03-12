@@ -40,11 +40,8 @@ const Center = styled.div`
 	border: solid 2px black;
 `;
 
-const NavbarComponents = styled.div`
-	padding: 0px 10px;
-`;
-
-const LoginButton = styled.div`
+const LoginButton = styled.button`
+	all: unset;
 	padding: 0px 20px;
 	color: ${FONT_COLOR.primary};
 	background-color: ${COLOR.tertiary};
@@ -53,6 +50,22 @@ const LoginButton = styled.div`
 	font-weight: bold;
 	border-radius: 2px;
 	margin: 8px 0px;
+	&:hover {
+		animation-name: ${keyframes`
+			0% {
+				background-color: ${COLOR.tertiary};
+				outline-width: 0px;
+			}
+			100% {
+				background-color: ${COLOR.tertiaryHover};
+				outline-width: 1px;
+			}
+		`};
+		animation-duration: 0.1s;
+		background-color: ${COLOR.tertiaryHover};
+		outline: 1px solid ${FONT_COLOR.primary};
+		cursor: pointer;
+	}
 `;
 
 const colorChange = (normal, hovering) => {
@@ -88,7 +101,7 @@ const DownloadButton = styled.div`
 	background-color: ${COLOR.primary}56;
 	border: 1px solid black;
 	border-radius: 20px;
-	padding: 8px 0px;
+	padding: 6px 0px;
 `;
 
 /* TODO:
@@ -100,16 +113,23 @@ function Topnav() {
 	return (
 		<Nav>
 			<LeftContainer>
-				<NavbarComponents>
+				<button
+					style={{ all: 'unset', cursor: 'pointer' }}
+					onClick={() => {
+						window.location.href = '/';
+					}}
+				>
 					<Verce size={FONT_SIZE.xxl}>verce</Verce>
-				</NavbarComponents>
+				</button>
 			</LeftContainer>
 			<RightContainer>
 				<div style={{ height: 'calc(100% - 16px)' }}>
-					<LoginButton>
-						<div style={{ paddingTop: 'calc(50% - 8px)' }}>
-							Login
-						</div>
+					<LoginButton
+						onClick={() => {
+							window.location.href = '/signin';
+						}}
+					>
+						Login
 					</LoginButton>
 				</div>
 			</RightContainer>

@@ -3,6 +3,7 @@ export const COLOR = {
 	secondary: '#082032',
 	tertiary: '#D73548',
 	quarternary: '#2C394B', // Slightly darker secondary
+	tertiaryHover: '#fc4c60',
 };
 
 export const FONT_COLOR = {
@@ -10,7 +11,7 @@ export const FONT_COLOR = {
 	primary: 'white',
 	primaryHover: '#D73548',
 	secondary: '#D73548',
-	secondaryHover: '#ff7586',
+	secondaryHover: '#FF7586',
 };
 
 export const FONT_SIZE = {
