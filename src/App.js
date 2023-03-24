@@ -29,3 +29,5 @@ export default App;
 // https://www.codecademy.com/learn/react-101/modules/react-hooks-u/cheatsheet
 // Why it's bad to use jquery w/ react
 // https://stackoverflow.com/questions/53507205/is-it-a-bad-practice-to-use-jquery-in-reactjs
+// FramerMotion - Animation library for react
+// https://www.framer.com/motion/

@@ -142,7 +142,12 @@ function WelcomeContainer(props) {
 			<BottomContainer>
 				<LeftContainer>
 					<Download>
-						Download verce for Windows
+						<nobr>
+							Download{' '}
+							<span style={{ fontSize: '20px' }}>verce</span> for
+							<br />
+							Windows
+						</nobr>
 						<img
 							alt="Windows Icon"
 							src={windowsIcon}

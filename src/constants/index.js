@@ -12,6 +12,7 @@ export const FONT_COLOR = {
 	primaryHover: '#D73548',
 	secondary: '#D73548',
 	secondaryHover: '#FF7586',
+	tertiary: '#00B2FF',
 };
 
 export const FONT_SIZE = {
