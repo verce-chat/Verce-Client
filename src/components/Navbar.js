@@ -121,14 +121,12 @@ const DownloadLink = styled(Link)`
 	margin: 0px 3px;
 	color: ${FONT_COLOR.secondary};
 	background-color: #cbfff316;
-	animation: ${({ flash }) => {
-		console.log(flash);
-		return flash
+	animation: ${({ flash }) =>
+		flash
 			? css`
 					${downloadLinkFlash} 1s
 			  `
-			: 'none';
-	}};
+			: 'none'};
 
 	&:hover {
 		color: ${FONT_COLOR.secondaryHover};
@@ -148,7 +146,6 @@ function Topnav() {
 
 	useEffect(() => {
 		const blinkInterval = setInterval(() => {
-			console.log('blink');
 			setBlink(true);
 		}, 5000);
 		return () => {
