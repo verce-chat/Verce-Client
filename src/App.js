@@ -31,3 +31,4 @@ export default App;
 // https://stackoverflow.com/questions/53507205/is-it-a-bad-practice-to-use-jquery-in-reactjs
 // FramerMotion - Animation library for react
 // https://www.framer.com/motion/
+// Put a virtual env in the backend?
