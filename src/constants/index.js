@@ -1,14 +1,15 @@
 export const COLOR = {
 	primary: '#324155',
 	secondary: '#082032',
+	secondaryHover: '#0B2D47',
 	tertiary: '#D73548',
-	quarternary: '#2C394B', // Slightly darker secondary
 	tertiaryHover: '#fc4c60',
+	quarternary: '#2C394B', // Slightly darker secondary
 };
 
 export const FONT_COLOR = {
 	error: 'red',
-	primary: 'white',
+	primary: '#FFFFFF',
 	primaryHover: '#D73548',
 	secondary: '#D73548',
 	secondaryHover: '#FF7586',
