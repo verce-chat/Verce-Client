@@ -46,7 +46,7 @@ const ChatContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
-	padding: 0px 20px;
+	padding: 0px 60px;
 	padding-bottom: 50px;
 `;
 
@@ -71,7 +71,8 @@ const Widgets = styled.div`
 	width: 600px;
 `;
 
-const SearchBar = styled.div`
+const SearchBar = styled.input`
+	all: unset;
 	background-color: ${COLOR.primary};
 	height: 50%;
 	width: 150px;
@@ -87,10 +88,10 @@ const InfoContainer = styled.div`
 	height: 100%;
 `;
 
-const MessagesContainer = styled.div`
+const MessengerContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	width: calc(100% - 80px);
+	width: calc(100%);
 	height: 40px;
 	background-color: ${COLOR.primary};
 	align-self: center;
@@ -126,59 +127,90 @@ const SendButton = styled.div`
 const MessageContainer = styled.div`
 	display: flex;
 	flex-direction: row;
+	margin-bottom: 20px;
 `;
 
 const MessageName = styled.div`
+	display: flex;
+	flex-direction: row;
+	height: min-content;
+	align-items: flex-end;
 	color: ${FONT_COLOR.primary};
+	* {
+		font-weight: 600;
+	}
 `;
 
-const MessageTime = styled.div``;
+const MessageTime = styled.div`
+	padding-left: 10px;
+	color: #dadada;
+	font-size: ${FONT_SIZE.sm};
+`;
+
+const MessageColumn = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin-top: 2px;
+`;
 
 const Message = styled.div`
 	color: ${FONT_COLOR.primary}cc;
 `;
 
-var lastSender = null;
-
-function getImage(imageURL, sender) {
-	if (sender === lastSender) {
-		console.log('equal');
-		console.log(sender + ' and ' + lastSender);
-		return null;
-	} else {
-		console.log('set');
-		lastSender = sender;
+function newMessage(messageData) {
+	let getProfilePicture = () => {
+		if (messageData.sameSender) return;
 		return (
 			<img
 				alt="UserProfile"
-				src={imageURL}
+				src={messageData.profilePicture}
 				style={{
 					aspectRatio: '1/1',
-					height: '40px',
+					height: '50px',
 					borderRadius: '50%',
+					marginRight: '15px',
 				}}
 			></img>
 		);
-	}
-}
-function NewMessage(imageURL, sender, time, message) {
+	};
+
+	if (messageData.sameSender) return;
 	return (
 		<MessageContainer>
-			{getImage(imageURL, sender)}
+			{getProfilePicture()}
 			<div>
 				<MessageName>
-					EskimoWhisperer<MessageTime>{time}</MessageTime>
+					<div>{messageData.sender}</div>
+					<MessageTime>{messageData.time}</MessageTime>
 				</MessageName>
-				<Message>{message}</Message>
+				<MessageColumn>{messageData.messages}</MessageColumn>
 			</div>
 		</MessageContainer>
 	);
 }
 
+function RenderMessages(newMessages) {
+	let components = [];
+	for (let i = 0; i < newMessages.length; i++) {
+		let currentMsg = newMessages[i];
+		for (let j = 0; j < currentMsg.messages.length; j++) {
+			currentMsg.messages[j] = (
+				<Message key={currentMsg.id}>{currentMsg.messages[j]}</Message>
+			);
+		}
+		if (i > 0 && newMessages[i - 1].sender === currentMsg.sender) {
+			currentMsg.sameSender = true;
+			newMessages[i - 1].messages.push(...currentMsg.messages);
+		}
+		components[i] = newMessage(currentMsg);
+	}
+	return components;
+}
+
 // TODO: Implement, image & description functionality
 export function ChatButton(image, name, mainBox) {
 	return (
-		<ChatButtonStyle main={mainBox}>
+		<ChatButtonStyle key={name} main={mainBox}>
 			<img
 				alt="Profile"
 				src={image}
@@ -213,29 +245,51 @@ export function DirectMessage() {
 		color: 'white',
 		paddingLeft: '10px',
 	};
+
+	// Temporary Replacement for personal info
+	let personalInfo = {
+		name: 'Oz0ne',
+		aboutMe: 'Alive... for now',
+		image: 'https://www.w3schools.com/howto/img_avatar.png',
+	};
+
+	// Temporary Replacement for messages
+	let messages = [
+		{
+			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+			sender: 'EskimoWhisperer',
+			time: 'Today at 5:33 PM',
+			messages: ['MESSAGE1'],
+			id: 1,
+		},
+		{
+			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+			sender: 'EskimoWhisperer',
+			time: 'Today at 5:33 PM',
+			messages: ['MESSAGE2'],
+			id: 2,
+		},
+		{
+			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+			sender: 'Example Man 23',
+			time: 'Today at 5:33 PM',
+			messages: ['This is a real message I swear'],
+			id: 2,
+		},
+	];
+
 	return (
 		<Container>
 			<TopContainer>
 				EskimoWhisperer
 				<Widgets>
-					<SearchBar>Search</SearchBar>
+					<SearchBar placeholder="Search"></SearchBar>
 				</Widgets>
 			</TopContainer>
 			<Container style={{ flexDirection: 'row' }}>
 				<ChatContainer>
-					{NewMessage(
-						'https://www.w3schools.com/howto/img_avatar.png',
-						'EskimoWhisperer',
-						'Today at 5:33 PM',
-						"Yo! What's going on ozzy boy!"
-					)}
-					{NewMessage(
-						'https://www.w3schools.com/howto/img_avatar.png',
-						'EskimoWhisperer',
-						'Today at 5:33 PM',
-						'MESSAGE2'
-					)}
-					<MessagesContainer>
+					{RenderMessages(messages)}
+					<MessengerContainer>
 						<InputMessageBox placeholder="Message @EskimoWhisperer"></InputMessageBox>
 						<MessageWidgets>
 							<div
@@ -252,9 +306,18 @@ export function DirectMessage() {
 								></MdOutlineArrowCircleRight>
 							</SendButton>
 						</MessageWidgets>
-					</MessagesContainer>
+					</MessengerContainer>
 				</ChatContainer>
-				<InfoContainer></InfoContainer>
+				<InfoContainer>
+					<div
+						style={{
+							borderRadius: '10px 0px 10px 0px',
+							backgroundColor: '#ABCDEF',
+							height: '100px',
+							width: 'calc(100%)',
+						}}
+					></div>
+				</InfoContainer>
 			</Container>
 		</Container>
 	);
