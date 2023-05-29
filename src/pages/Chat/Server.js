@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { COLOR } from '../../constants';
 
+const Container = styled.div`
+	flex: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+`;
+
 const Banner = styled.div`
 	height: 20%;
 	width: 100%;
@@ -18,3 +25,14 @@ const ChannelName = styled.div`
 	width: calc(100%-20px);
 	background-color: ${COLOR.secondary};
 `;
+
+export function GetGroups() {}
+
+export function GroupMessage() {
+	return (
+		<Container>
+			<Banner></Banner>
+			<ChannelName>#GENERAL</ChannelName>
+		</Container>
+	);
+}

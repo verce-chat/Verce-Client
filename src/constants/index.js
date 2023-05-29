@@ -4,7 +4,7 @@ export const COLOR = {
 	secondaryHover: '#0B2D47',
 	tertiary: '#D73548',
 	tertiaryHover: '#fc4c60',
-	quarternary: '#2C394B', // Slightly darker secondary
+	quarternary: '#2C394B',
 };
 
 export const FONT_COLOR = {

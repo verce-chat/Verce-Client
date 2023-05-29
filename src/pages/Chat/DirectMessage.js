@@ -1,24 +1,38 @@
 import styled from 'styled-components';
 import { COLOR, FONT_SIZE, FONT_COLOR } from '../../constants';
-import { MdOutlineArrowCircleRight } from 'react-icons/md';
+import { BsPinAngleFill } from 'react-icons/bs';
+import { RxMagnifyingGlass } from 'react-icons/rx';
+import { Messaging } from '../../components/Messaging';
+
+const Container = styled.div`
+	flex: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+`;
 
 const ChatButtonStyle = styled.button`
 	font-family: 'Lato';
 	all: unset;
 	height: 40px;
-	width: ${(props) => (props.main ? 'auto' : '100%')};
-	margin-top: ${(props) => (props.main ? '10px' : '5px')};
-	outline: ${(props) =>
-		props.main ? 'solid 2px ' + COLOR.tertiary : 'none'};
+	width: 100%;
+	margin-top: 5px;
 	border-radius: 2px;
 	padding: 5px 10px;
-	background-color: ${(props) => (props.main ? COLOR.primary : 'none')};
-	color: ${(props) => (props.main ? 'white' : 'grey')};
+	color: grey;
 	cursor: pointer;
 	&:hover {
 		color: lightgrey;
 		background-color: ${COLOR.primary};
 	}
+`;
+
+const PrimaryChatButtonStyle = styled(ChatButtonStyle)`
+	width: auto;
+	margin-top: 10px;
+	outline: solid 2px ${COLOR.tertiary};
+	background-color: ${COLOR.primary};
+	color: ${FONT_COLOR.primary};
 `;
 
 const ChatButtonName = styled.div`
@@ -31,23 +45,6 @@ const ChatButtonName = styled.div`
 	width: calc(100% - 51px);
 	margin-top: 18px;
 	transform: translateY(-50%);
-`;
-
-const Container = styled.div`
-	flex: 1;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-// Horizontal Chat Container, thinking of making Vertical chat container
-const ChatContainer = styled.div`
-	flex: 1;
-	height: calc(100%-50px);
-	display: flex;
-	flex-direction: column;
-	justify-content: end;
-	padding: 0px 60px;
-	padding-bottom: 50px;
 `;
 
 const TopContainer = styled.div`
@@ -82,135 +79,91 @@ const SearchBar = styled.input`
 `;
 
 const InfoContainer = styled.div`
-	align-self: flex-end;
-	width: 225px;
-	background-color: #204588;
-	height: 100%;
-`;
-
-const MessengerContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	width: calc(100%);
-	height: 40px;
-	background-color: ${COLOR.primary};
-	align-self: center;
-	border-radius: 5px;
-`;
-
-const InputMessageBox = styled.input`
-	all: unset;
-	color: white;
-	flex: 1;
-	padding: 0px 20px;
-	height: 100%;
-`;
-
-const MessageWidgets = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	height: 100%;
-	padding: 0px 10px;
-`;
-
-const SendButton = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	&:hover * {
-		color: ${COLOR.tertiary};
-	}
-`;
-
-const MessageContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	margin-bottom: 20px;
-`;
-
-const MessageName = styled.div`
-	display: flex;
-	flex-direction: row;
-	height: min-content;
-	align-items: flex-end;
-	color: ${FONT_COLOR.primary};
-	* {
-		font-weight: 600;
-	}
-`;
-
-const MessageTime = styled.div`
-	padding-left: 10px;
-	color: #dadada;
-	font-size: ${FONT_SIZE.sm};
-`;
-
-const MessageColumn = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-top: 2px;
+	align-items: center;
+	align-self: flex-end;
+	width: 200px;
+	background-color: #204588;
+	height: calc(100% - 40px);
+	padding: 20px;
 `;
 
-const Message = styled.div`
-	color: ${FONT_COLOR.primary}cc;
+const ProfileBackground = styled.div`
+	border-radius: 10px 10px 0px 0px;
+	background-color: #abcdef;
+	height: 120px;
+	width: 100%;
 `;
 
-function newMessage(messageData) {
-	let getProfilePicture = () => {
-		if (messageData.sameSender) return;
-		return (
+const Pin = styled(BsPinAngleFill)`
+	cursor: pointer;
+	height: 20px;
+	width: 20px;
+	color: ${FONT_COLOR.primary};
+	margin-right: 10px;
+	&:hover {
+		color: ${FONT_COLOR.primaryHover};
+	}
+`;
+
+const MagnifyingGlass = styled(RxMagnifyingGlass)`
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	color: ${FONT_COLOR.primary};
+	margin-left: -20px;
+	&:hover {
+		color: ${FONT_COLOR.primaryHover};
+	}
+`;
+
+let msgs = [
+	{
+		profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+		sender: 'EskimoWhisperer',
+		time: 'Today at 5:33 PM',
+		messages: ['MESSAGE1'],
+		id: 1,
+	},
+	{
+		profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+		sender: 'EskimoWhisperer',
+		time: 'Today at 5:33 PM',
+		messages: ['MESSAGE2'],
+		id: 2,
+	},
+	{
+		profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
+		sender: 'Example Man 23',
+		time: 'Today at 5:33 PM',
+		messages: ['This is a real message I swear'],
+		id: 2,
+	},
+];
+
+export function PrimaryChat(name, image) {
+	return (
+		<PrimaryChatButtonStyle>
 			<img
-				alt="UserProfile"
-				src={messageData.profilePicture}
+				alt="Profile"
+				src={image}
 				style={{
 					aspectRatio: '1/1',
-					height: '50px',
+					float: 'left',
+					height: '100%',
 					borderRadius: '50%',
-					marginRight: '15px',
 				}}
-			></img>
-		);
-	};
-
-	if (messageData.sameSender) return;
-	return (
-		<MessageContainer>
-			{getProfilePicture()}
-			<div>
-				<MessageName>
-					<div>{messageData.sender}</div>
-					<MessageTime>{messageData.time}</MessageTime>
-				</MessageName>
-				<MessageColumn>{messageData.messages}</MessageColumn>
-			</div>
-		</MessageContainer>
+			/>
+			<ChatButtonName>{name}</ChatButtonName>
+		</PrimaryChatButtonStyle>
 	);
 }
 
-function RenderMessages(newMessages) {
-	let components = [];
-	for (let i = 0; i < newMessages.length; i++) {
-		let currentMsg = newMessages[i];
-		for (let j = 0; j < currentMsg.messages.length; j++) {
-			currentMsg.messages[j] = (
-				<Message key={currentMsg.id}>{currentMsg.messages[j]}</Message>
-			);
-		}
-		if (i > 0 && newMessages[i - 1].sender === currentMsg.sender) {
-			currentMsg.sameSender = true;
-			newMessages[i - 1].messages.push(...currentMsg.messages);
-		}
-		components[i] = newMessage(currentMsg);
-	}
-	return components;
-}
-
 // TODO: Implement, image & description functionality
-export function ChatButton(image, name, mainBox) {
+export function ChatButton(name, image) {
 	return (
-		<ChatButtonStyle key={name} main={mainBox}>
+		<ChatButtonStyle key={name}>
 			<img
 				alt="Profile"
 				src={image}
@@ -231,90 +184,57 @@ export function GetChats() {
 	let arr = [];
 	for (let i = 0; i < 20; i++) {
 		arr[i] = ChatButton(
-			'https://upload.wikimedia.org/wikipedia/commons/4/49/A_black_image.jpg',
-			'Example Man ' + (i + 1)
+			'Example Man ' + (i + 1),
+			'https://upload.wikimedia.org/wikipedia/commons/4/49/A_black_image.jpg'
 		);
 	}
 	return arr;
 }
 
 export function DirectMessage() {
-	let iconStyle = {
-		height: '30px',
-		width: '30px',
-		color: 'white',
-		paddingLeft: '10px',
-	};
-
-	// Temporary Replacement for personal info
-	let personalInfo = {
-		name: 'Oz0ne',
-		aboutMe: 'Alive... for now',
-		image: 'https://www.w3schools.com/howto/img_avatar.png',
-	};
-
-	// Temporary Replacement for messages
-	let messages = [
-		{
-			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
-			sender: 'EskimoWhisperer',
-			time: 'Today at 5:33 PM',
-			messages: ['MESSAGE1'],
-			id: 1,
-		},
-		{
-			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
-			sender: 'EskimoWhisperer',
-			time: 'Today at 5:33 PM',
-			messages: ['MESSAGE2'],
-			id: 2,
-		},
-		{
-			profilePicture: 'https://www.w3schools.com/howto/img_avatar.png',
-			sender: 'Example Man 23',
-			time: 'Today at 5:33 PM',
-			messages: ['This is a real message I swear'],
-			id: 2,
-		},
-	];
-
+	let usr = 'EskimoWhisperer'; // temporary user
 	return (
 		<Container>
 			<TopContainer>
-				EskimoWhisperer
+				{usr}
 				<Widgets>
+					<Pin></Pin>
 					<SearchBar placeholder="Search"></SearchBar>
+					<MagnifyingGlass></MagnifyingGlass>
 				</Widgets>
 			</TopContainer>
 			<Container style={{ flexDirection: 'row' }}>
-				<ChatContainer>
-					{RenderMessages(messages)}
-					<MessengerContainer>
-						<InputMessageBox placeholder="Message @EskimoWhisperer"></InputMessageBox>
-						<MessageWidgets>
-							<div
-								style={{
-									backgroundColor: 'gray',
-									height: 'calc(100% - 6px)',
-									width: '2px',
-									borderRadius: '10px',
-								}}
-							></div>
-							<SendButton>
-								<MdOutlineArrowCircleRight
-									style={iconStyle}
-								></MdOutlineArrowCircleRight>
-							</SendButton>
-						</MessageWidgets>
-					</MessengerContainer>
-				</ChatContainer>
+				{Messaging(usr, msgs)}
 				<InfoContainer>
+					<ProfileBackground></ProfileBackground>
+					<img
+						alt="DirectProfile"
+						src="https://www.w3schools.com/howto/img_avatar.png"
+						style={{
+							aspectRatio: '1/1',
+							height: '100px',
+							borderRadius: '50%',
+							marginTop: '-75px',
+						}}
+					></img>
 					<div
 						style={{
-							borderRadius: '10px 0px 10px 0px',
-							backgroundColor: '#ABCDEF',
-							height: '100px',
-							width: 'calc(100%)',
+							color: FONT_COLOR.primary,
+							fontSize: FONT_SIZE.xl,
+							fontWeight: '600',
+							marginTop: '2px',
+						}}
+					>
+						{usr}
+					</div>
+					<div
+						key="spacer"
+						style={{
+							backgroundColor: COLOR.tertiary,
+							height: '3px',
+							width: 'calc(100% - 40px)',
+							marginTop: '10px',
+							borderRadius: '10px',
 						}}
 					></div>
 				</InfoContainer>
